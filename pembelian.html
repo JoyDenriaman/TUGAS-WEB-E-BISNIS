@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembelian Produk</title>
+    <style>
+        /* Reset dan dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #42b549;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-detail {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .product-detail img {
+            width: 300px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-detail div {
+            flex: 1;
+        }
+
+        .product-detail h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-detail p {
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .form-container {
+            margin-top: 20px;
+        }
+
+        .form-container h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #42b549;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 1em;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #42b549;
+        }
+
+        input[type="submit"] {
+            background-color: #42b549;
+            color: white;
+            padding: 10px 15px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #369a41;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .product-detail img {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Halaman Pembelian Produk</h1>
+</header>
+
+<div class="container">
+    <div class="product-detail">
+        <img id="product-image" src="placeholder.jpg" alt="Product Image">
+        <div>
+            <h2 id="product-name">Nama Produk</h2>
+            <p id="product-price">Harga: Rp 0</p>
+            <p id="product-description">Deskripsi: Deskripsi produk tidak tersedia.</p>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <h3>Form Pembelian</h3>
+        <form action="pembelian_proses.html" method="GET">
+            <input type="hidden" id="product" name="product">
+            <label for="nama">Nama Lengkap:</label>
+            <input type="text" id="nama" name="nama" required>
+
+            <label for="alamat">Alamat Pengiriman:</label>
+            <input type="text" id="alamat" name="alamat" required>
+
+            <label for="jumlah">Jumlah Produk:</label>
+            <input type="number" id="jumlah" name="jumlah" min="1" required>
+
+            <input type="submit" value="Beli Sekarang">
+        </form>
+    </div>
+</div>
+<script>
+    // Data produk
+    const products = {
+        "SamsungS22": {
+            name: "Samsung S22 Ultra",
+            image: "sam.jpg",
+            price: "Rp 15.000.000",
+            description: "Samsung S22 Ultra adalah ponsel flagship dengan kamera canggih dan performa luar biasa."
+        },
+        "SamsungS24": {
+            name: "Samsung S24 Ultra",
+            image: "S24.jpg",
+            price: "Rp 18.000.000",
+            description: "Samsung S24 Ultra adalah ponsel flagship terbaru dengan fitur premium."
+        },
+        "SamsungA73": {
+            name: "Samsung Galaxy A73",
+            image: "A73.png",
+            price: "Rp 7.000.000",
+            description: "Samsung Galaxy A73 memiliki layar luas dan baterai tahan lama."
+        },
+        "SamsungA54": {
+            name: "Samsung Galaxy A54",
+            image: "A54.jpg",
+            price: "Rp 6.000.000",
+            description: "Samsung Galaxy A54 menawarkan performa handal dengan desain modern."
+        },
+        "OppoFindX5Pro": {
+            name: "Oppo Find X5 Pro",
+            image: "X5.webp",
+            price: "Rp 15.500.000",
+            description: "Oppo Find X5 Pro adalah ponsel dengan teknologi kamera canggih dan desain premium."
+        },
+        "OppoReno8": {
+            name: "Oppo Reno 8",
+            image: "RENO8.png",
+            price: "Rp 5.900.000",
+            description: "Oppo Reno 8 hadir dengan performa andal untuk kebutuhan sehari-hari."
+        },
+        "OppoA96": {
+            name: "Oppo A96",
+            image: "RENOA96.jpg",
+            price: "Rp 4.000.000",
+            description: "Oppo A96 memiliki desain stylish dan baterai tahan lama."
+        },
+        "OppoFindN": {
+            name: "Oppo Find N",
+            image: "FIND.webp",
+            price: "Rp 19.000.000",
+            description: "Oppo Find N adalah ponsel lipat canggih dengan performa tinggi."
+        },
+        "VivoV23": {
+            name: "Vivo V23",
+            image: "v23.webp",
+            price: "Rp 6.500.000",
+            description: "Vivo V23 hadir dengan kamera selfie terbaik dan desain elegan."
+        },
+        "VivoY55": {
+            name: "Vivo Y55",
+            image: "y55.jpg",
+            price: "Rp 3.200.000",
+            description: "Vivo Y55 menawarkan performa tinggi dengan harga terjangkau."
+        },
+        "VivoX80": {
+            name: "Vivo X80",
+            image: "Vivo-X80-Pro.jpg",
+            price: "Rp 12.000.000",
+            description: "Vivo X80 dilengkapi kamera profesional dan performa canggih."
+        },
+        "VivoY36": {
+            name: "Vivo Y36",
+            image: "y36.jpg",
+            price: "Rp 4.000.000",
+            description: "Vivo Y36 adalah ponsel dengan daya tahan baterai lama dan desain keren."
+        },
+        "XiaomiMi13": {
+            name: "Xiaomi Mi 13T",
+            image: "13T.jpg",
+            price: "Rp 6.500.000",
+            description: "Xiaomi Mi 13T menawarkan performa andal dengan harga kompetitif."
+        },
+        "XiaomiRedmiNote12": {
+            name: "Xiaomi Redmi Note 12",
+            image: "1200.webp",
+            price: "Rp 3.500.000",
+            description: "Xiaomi Redmi Note 12 adalah pilihan terbaik untuk pengguna harian."
+        },
+        "Xiaomi12T": {
+            name: "Xiaomi 14T",
+            image: "14T.jpg",
+            price: "Rp 6.699.000",
+            description: "Xiaomi 14T hadir dengan performa luar biasa untuk gaming dan multitasking."
+        },
+        "XiaomiPocoF5": {
+            name: "Xiaomi Poco F5",
+            image: "f5.png",
+            price: "Rp 4.700.000",
+            description: "Xiaomi Poco F5 menawarkan spesifikasi tinggi dengan harga terjangkau."
+        },
+        "RealmeGT2Pro": {
+            name: "Realme GT 2 Pro",
+            image: "GT.jpg",
+            price: "Rp 9.500.000",
+            description: "Realme GT 2 Pro hadir dengan performa flagship dan teknologi terkini."
+        },
+        "RealmeNarzo50": {
+            name: "Realme Narzo 50",
+            image: "Narzo.jpg",
+            price: "Rp 2.700.000",
+            description: "Realme Narzo 50 adalah pilihan terbaik untuk gaming ringan."
+        },
+        "Realme11Pro": {
+            name: "Realme 11 Pro",
+            image: "11.jpg",
+            price: "Rp 6.000.000",
+            description: "Realme 11 Pro menawarkan desain premium dengan performa andal."
+        },
+        "RealmeC55": {
+            name: "Realme C55",
+            image: "C55.webp",
+            price: "Rp 2.900.000",
+            description: "Realme C55 memiliki baterai besar dan layar cerah."
+        },
+        "HuaweiP50Pro": {
+            name: "Huawei P50 Pro",
+            image: "p50.jpg",
+            price: "Rp 14.000.000",
+            description: "Huawei P50 Pro hadir dengan kamera Leica dan performa premium."
+        },
+        "HuaweiMate50": {
+            name: "Huawei Mate 50",
+            image: "50.jpg",
+            price: "Rp 16.000.000",
+            description: "Huawei Mate 50 memiliki daya tahan baterai luar biasa dan desain elegan."
+        },
+        "HuaweiNova11": {
+            name: "Huawei Nova 11",
+            image: "nova.jpg",
+            price: "Rp 7.500.000",
+            description: "Huawei Nova 11 menghadirkan performa handal dengan harga terjangkau."
+        },
+        "HuaweiP60Pro": {
+            name: "Huawei P60 Pro",
+            image: "p60.jpg",
+            price: "Rp 15.000.000",
+            description: "Huawei P60 Pro memiliki kamera mutakhir untuk fotografi profesional."
+        }
+    };
+
+    // Ambil parameter produk dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('product');
+
+    // Tampilkan data produk yang sesuai
+    if (products[productId]) {
+        const product = products[productId];
+        document.getElementById('product-name').textContent = product.name;
+        document.getElementById('product-image').src = product.image;
+        document.getElementById('product-price').textContent = `Harga: ${product.price}`;
+        document.getElementById('product-description').textContent = `Deskripsi: ${product.description}`;
+        document.getElementById('product').value = productId;
+    } else {
+        document.body.innerHTML = "<h1>Produk tidak ditemukan</h1>";
+    }
+</script>
+
+</body>
+</html>
